@@ -119,22 +119,24 @@ export const Login = async (req, res) => {
       },
     });
 
+    console.log(user, "At checkpoint");
+
     if (!user || !user.password)
       return res.status(400).json({ error: "Invalid credentials" });
 
     const validPassword = await bcrypt.compare(password.trim(), user.password);
 
     if (!validPassword)
-      return res.status(401).json({ messsage: "Invalid password" });
+      return res.status(401).json({ message: "Invalid password" });
 
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+      expiresIn: "24h",
     });
 
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      maxAge: 3600000,
+      maxAge: 3600000 * 24,
     });
 
     res.json({

@@ -1,16 +1,31 @@
 import { Student } from "../models/index.js";
 import { generateStudentID } from "../utils/generateStudentID.js";
 
+export const fetchStudents = async (req, res) => {
+  try {
+    const teacherId = req.user.id;
+
+    const students = await Student.findAll({
+      where: { teacherId },
+      order: [["createdAt", "DESC"]],
+    });
+
+    return res
+      .status(200)
+      .json({ success: true, count: students.length, students });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: "Server error" });
+  }
+};
+
 export const addStudent = async (req, res) => {
   try {
     const { firstName, lastName, studentemail } = req.body;
     const teacherId = req.user.id;
 
-    console.log(req.body, teacherId);
-
     const studentId = generateStudentID();
 
-    const student = await Student.create({
+    await Student.create({
       firstName: firstName.trim().toLowerCase(),
       lastName: lastName.toLowerCase().trim(),
       studentId: studentId,
@@ -18,9 +33,11 @@ export const addStudent = async (req, res) => {
       teacherId,
     });
 
-    return res.status(201).json({ message: "Student Added Successfully" });
+    return res
+      .status(201)
+      .json({ success: true, message: "Student Added Successfully" });
   } catch (error) {
-    return res.status(500).json({ error: "Server error" });
+    return res.status(500).json({ success: true, error: "Server error" });
   }
 };
 

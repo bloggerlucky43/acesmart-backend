@@ -1,4 +1,5 @@
-import { Exam } from "../models/index.js";
+import { Exam, Student } from "../models/index.js";
+import { Op } from "sequelize";
 export const createExam = async (req, res) => {
   try {
     const {
@@ -6,9 +7,8 @@ export const createExam = async (req, res) => {
       title,
       description,
       duration,
-      questions,
+      sections,
       totalMarks,
-      passMarks,
       negativeMarking,
       startDate,
       endDate,
@@ -22,10 +22,9 @@ export const createExam = async (req, res) => {
     if (
       !title ||
       !description ||
-      !questions.length ||
+      !sections.length ||
       !duration ||
       !creatorId ||
-      !passMarks ||
       !totalMarks ||
       !negativeMarking === undefined ||
       !startDate ||
@@ -36,38 +35,11 @@ export const createExam = async (req, res) => {
         .json({ success: false, message: "Missing required fields" });
     }
 
-    let exam;
-
-    if (id) {
-      exam = await Exam.findOne({
-        where: { id, createdBy: creatorId },
-      });
-    }
-
-    if (exam) {
-      await Exam.update({
-        title,
-        description,
-        duration,
-        questions,
-        totalMarks,
-        passMarks,
-        negativeMarking,
-        startDate,
-        endDate,
-      });
-
-      return res
-        .status(200)
-        .json({ success: true, message: "Exam updated", data: exam });
-    }
-
     const newExam = await Exam.create({
       title,
       description,
       duration,
-      questions,
-      passMarks,
+      sections,
       createdBy: creatorId,
       totalMarks,
       negativeMarking,
@@ -93,5 +65,91 @@ export const getExamsByCreator = async (req, res) => {
     res.status(200).json({ success: true, count: exams.length, data: exams });
   } catch (error) {
     res.status(500).json({ success: false, error: "Internal server error" });
+  }
+};
+
+export const studentExamLogin = async (req, res) => {
+  try {
+    const { firstName, studentId } = req.body;
+
+    const student = await Student.findOne({
+      where: {
+        firstName: firstName.trim().toLowerCase(),
+        studentId: studentId.trim(),
+      },
+    });
+
+    if (!student) {
+      return res
+        .status(401)
+        .json({ success: false, message: "Invalid Login Credentials" });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Login Successful",
+      student,
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: "server error" });
+  }
+};
+
+const shuffleArray = (array) => {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = (Math.floor(Math.random() * (i + 1))[(shuffled[1], shuffled[j])] =
+      [shuffled[j], shuffled[i]]);
+  }
+  return shuffled;
+};
+
+export const getExamQuestions = async (req, res) => {
+  try {
+    const { studentId, examId } = req.params;
+
+    const student = await Student.findOne({ where: { id: studentId } });
+
+    if (!student) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Student not found" });
+    }
+
+    const now = new Date();
+
+    const exam = await Exam.findOne({
+      where: {
+        id: examId,
+        createdBy: student.teacherId,
+        startDate: { [Op.lte]: now },
+        endDate: { [Op.gte]: now },
+      },
+    });
+
+    if (!exam) {
+      return res
+        .status(404)
+        .json({ success: false, message: "No active exam found" });
+    }
+
+    console.log("Exam questions are", exam);
+
+    //randomize questions in each seciton
+
+    const sections = exam.sections?.map((section) => {
+      const randomizedQuestions = shuffleArray(section.questions || []);
+
+      console.log("Reshuffled sections are ;", randomizedQuestions);
+      return { ...section, questions: randomizedQuestions };
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Exam fetched successfully",
+      exam: { ...exam.toJSON(), sections },
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: "Server error" });
   }
 };

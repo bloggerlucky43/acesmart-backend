@@ -11,28 +11,28 @@ const Exam = sequelize.define(
     },
     title: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     description: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     duration: {
       type: DataTypes.INTEGER,
     },
-    questions: {
+    sections: {
       type: DataTypes.JSONB,
-      allowNull: false,
+      allowNull: true,
     },
     negativeMarking: {
       type: DataTypes.BOOLEAN,
-      allowNull: false,
+      allowNull: true,
       defaultValue: false,
     },
-    passMarks: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 40 },
+
     totalMarks: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
       defaultValue: 100,
     },
     startDate: {
@@ -46,10 +46,11 @@ const Exam = sequelize.define(
     maxAttempts: {
       type: DataTypes.INTEGER,
       defaultValue: 1,
+      allowNull: true,
     },
     createdBy: {
       type: DataTypes.UUID,
-      allowNull: false,
+      allowNull: true,
     },
   },
   { tableName: "exams", timestamps: true }
