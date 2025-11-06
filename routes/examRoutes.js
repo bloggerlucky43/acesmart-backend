@@ -3,11 +3,13 @@ import {
   createExam,
   getExamQuestions,
   getExamsByCreator,
+  saveExamResult,
   studentExamLogin,
 } from "../controller/examController.js";
 import { protect } from "../middleware/authMiddleware.js";
 const router = express.Router();
 
+router.post("/save-result", saveExamResult);
 router.post("/", protect(), createExam);
 router.get("/", protect(), getExamsByCreator);
 router.post("/login", studentExamLogin);

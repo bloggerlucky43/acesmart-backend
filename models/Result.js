@@ -9,7 +9,7 @@ const Result = sequelize.define(
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
-    testId: {
+    examId: {
       type: DataTypes.UUID,
       allowNull: false,
     },
@@ -17,27 +17,24 @@ const Result = sequelize.define(
       type: DataTypes.UUID,
       allowNull: false,
     },
-    score: {
+    scores: {
+      type: DataTypes.JSONB,
+      allowNull: false,
+    },
+    totalScore: {
       type: DataTypes.FLOAT,
       allowNull: false,
     },
-    totalQuestions: {
+    percentage: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
     },
-    correctAnswers: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    wrongAnswers: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    attemptedOn: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
+    examTitle: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
   },
+
   { tableName: "results", timestamps: true }
 );
 

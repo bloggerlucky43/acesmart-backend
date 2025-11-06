@@ -73,34 +73,34 @@ async function importAPIQuestions(subject, year) {
   }
 }
 
-importAPIQuestions("government", 2022);
-importAPIQuestions("crk", 2022);
-importAPIQuestions("currentaffairs", 2022);
-importAPIQuestions("irk", 2022);
-importAPIQuestions("history", 2022);
-importAPIQuestions("mathematics", 2022);
-importAPIQuestions("english", 2022);
-importAPIQuestions("commerce", 2022);
-importAPIQuestions("accounting", 2022);
-importAPIQuestions("biology", 2022);
-importAPIQuestions("physics", 2022);
-importAPIQuestions("chemistry", 2022);
-importAPIQuestions("englishlit", 2022);
-importAPIQuestions("economics", 2022);
-importAPIQuestions("government", 2022);
-importAPIQuestions("crk", 2022);
-importAPIQuestions("currentaffairs", 2022);
-importAPIQuestions("irk", 2022);
-importAPIQuestions("history", 2022);
-importAPIQuestions("mathematics", 2022);
-importAPIQuestions("english", 2022);
-importAPIQuestions("commerce", 2022);
-importAPIQuestions("accounting", 2022);
-importAPIQuestions("biology", 2022);
-importAPIQuestions("physics", 2022);
-importAPIQuestions("chemistry", 2022);
-importAPIQuestions("englishlit", 2022);
-importAPIQuestions("economics", 2022);
+importAPIQuestions("government", 2019);
+importAPIQuestions("crk", 2019);
+importAPIQuestions("currentaffairs", 2019);
+importAPIQuestions("irk", 2019);
+importAPIQuestions("history", 2019);
+importAPIQuestions("mathematics", 2019);
+importAPIQuestions("english", 2019);
+importAPIQuestions("commerce", 2019);
+importAPIQuestions("accounting", 2019);
+importAPIQuestions("biology", 2019);
+importAPIQuestions("physics", 2019);
+importAPIQuestions("chemistry", 2019);
+importAPIQuestions("englishlit", 2019);
+importAPIQuestions("economics", 2019);
+importAPIQuestions("government", 2019);
+importAPIQuestions("crk", 2019);
+importAPIQuestions("currentaffairs", 2019);
+importAPIQuestions("irk", 2019);
+importAPIQuestions("history", 2019);
+importAPIQuestions("mathematics", 2019);
+importAPIQuestions("english", 2019);
+importAPIQuestions("commerce", 2019);
+importAPIQuestions("accounting", 2019);
+importAPIQuestions("biology", 2019);
+importAPIQuestions("physics", 2019);
+importAPIQuestions("chemistry", 2019);
+importAPIQuestions("englishlit", 2019);
+importAPIQuestions("economics", 2019);
 
 const PORT = process.env.PORT;
 

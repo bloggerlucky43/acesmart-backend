@@ -1,4 +1,4 @@
-import { Exam, Student } from "../models/index.js";
+import { Exam, Result, Student } from "../models/index.js";
 import { Op } from "sequelize";
 export const createExam = async (req, res) => {
   try {
@@ -72,12 +72,21 @@ export const studentExamLogin = async (req, res) => {
   try {
     const { firstName, studentId } = req.body;
 
+    console.log(req.body);
+
+    if (!firstName || !studentId) {
+      return res
+        .status(400)
+        .json({ success: false, message: "All fields are required" });
+    }
     const student = await Student.findOne({
       where: {
         firstName: firstName.trim().toLowerCase(),
         studentId: studentId.trim(),
       },
     });
+
+    console.log("At the student funding", student);
 
     if (!student) {
       return res
@@ -91,25 +100,22 @@ export const studentExamLogin = async (req, res) => {
       student,
     });
   } catch (error) {
+    console.error(error);
     return res.status(500).json({ success: false, message: "server error" });
   }
 };
 
 const shuffleArray = (array) => {
-  const shuffled = [...array];
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = (Math.floor(Math.random() * (i + 1))[(shuffled[1], shuffled[j])] =
-      [shuffled[j], shuffled[i]]);
-  }
-  return shuffled;
+  if (!Array.isArray(array)) return [];
+  return [...array].sort(() => Math.random() - 0.5);
 };
 
 export const getExamQuestions = async (req, res) => {
   try {
     const { studentId, examId } = req.params;
+    console.log(req.params);
 
-    const student = await Student.findOne({ where: { id: studentId } });
-
+    const student = await Student.findOne({ where: { studentId } });
     if (!student) {
       return res
         .status(404)
@@ -133,23 +139,96 @@ export const getExamQuestions = async (req, res) => {
         .json({ success: false, message: "No active exam found" });
     }
 
-    console.log("Exam questions are", exam);
+    const examData = exam.toJSON();
+    const rawSections = examData.sections || [];
 
-    //randomize questions in each seciton
+    const sections = rawSections.map((section, index) => {
+      console.log(`Processing section ${index + 1}:`, section.section);
 
-    const sections = exam.sections?.map((section) => {
-      const randomizedQuestions = shuffleArray(section.questions || []);
+      const randomizedQuestions = shuffleArray(section.questions || []).map(
+        (q) => {
+          // Convert options object → array if needed
+          if (
+            q.options &&
+            typeof q.options === "object" &&
+            !Array.isArray(q.options)
+          ) {
+            q.options = Object.values(q.options);
+          }
 
-      console.log("Reshuffled sections are ;", randomizedQuestions);
+          // Find the actual correct answer value
+          let correctOptionValue;
+          if (
+            typeof q.correctAnswer === "string" &&
+            /^[abcd]$/i.test(q.correctAnswer)
+          ) {
+            const indexMap = { a: 0, b: 1, c: 2, d: 3 };
+            correctOptionValue =
+              q.options[indexMap[q.correctAnswer.toLowerCase()]];
+          } else {
+            correctOptionValue = q.correctAnswer;
+          }
+
+          // Shuffle options
+          const shuffledOptions = shuffleArray(q.options);
+
+          // Ensure correct answer is the actual text, not a letter
+          return {
+            ...q,
+            options: shuffledOptions,
+            correctAnswer: correctOptionValue,
+          };
+        }
+      );
+
       return { ...section, questions: randomizedQuestions };
     });
 
     return res.status(200).json({
       success: true,
       message: "Exam fetched successfully",
-      exam: { ...exam.toJSON(), sections },
+      exam: { ...examData, sections },
     });
   } catch (error) {
-    return res.status(500).json({ success: false, message: "Server error" });
+    console.error("❌ Error in getExamQuestions:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Server error", error: error.message });
+  }
+};
+
+export const saveExamResult = async (req, res) => {
+  try {
+    const { scores, studentId, examId, examTitle, totalMarks } = req.body;
+
+    console.log("The request body is", req.body);
+
+    if (!scores) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Score is required" });
+    }
+
+    const totalScore = Object.values(scores).reduce((acc, val) => acc + val, 0);
+    const totalMark = totalMarks;
+    const percentage = (totalScore / totalMark) * 100;
+
+    const result = await Result.create({
+      studentId,
+      examId,
+      examTitle,
+      scores,
+      totalScore,
+      percentage,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Exam result saved successfully",
+      data: result,
+    });
+  } catch (error) {
+    console.error("Error saving exam result", error);
+    res.status(500).json({ success: false, message: "Server error" });
   }
 };
