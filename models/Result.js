@@ -1,8 +1,8 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/db.js";
 
-const Result = sequelize.define(
-  "Result",
+const Results = sequelize.define(
+  "Results",
   {
     id: {
       type: DataTypes.UUID,
@@ -17,13 +17,17 @@ const Result = sequelize.define(
       type: DataTypes.UUID,
       allowNull: false,
     },
+    studentCode: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     scores: {
       type: DataTypes.JSONB,
-      allowNull: false,
+      allowNull: true,
     },
     totalScore: {
       type: DataTypes.FLOAT,
-      allowNull: false,
+      allowNull: true,
     },
     percentage: {
       type: DataTypes.INTEGER,
@@ -35,7 +39,7 @@ const Result = sequelize.define(
     },
   },
 
-  { tableName: "results", timestamps: true }
+  { tableName: "result", timestamps: true }
 );
 
-export default Result;
+export default Results;

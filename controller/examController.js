@@ -1,4 +1,4 @@
-import { Exam, Result, Student } from "../models/index.js";
+import { Exam, Results, Student } from "../models/index.js";
 import { Op } from "sequelize";
 export const createExam = async (req, res) => {
   try {
@@ -199,25 +199,33 @@ export const getExamQuestions = async (req, res) => {
 
 export const saveExamResult = async (req, res) => {
   try {
-    const { scores, studentId, examId, examTitle, totalMarks } = req.body;
-
+    // let { scores, studentId, examId, examTitle, totalMarks } = req.body;
+    const { resultData } = req.body;
     console.log("The request body is", req.body);
 
-    if (!scores) {
+    if (
+      !resultData.scores ||
+      typeof resultData.scores !== "object" ||
+      Array.isArray(resultData.scores)
+    ) {
       return res
         .status(400)
-        .json({ success: false, message: "Score is required" });
+        .json({ success: false, message: "Scores must be an object" });
     }
 
-    const totalScore = Object.values(scores).reduce((acc, val) => acc + val, 0);
-    const totalMark = totalMarks;
+    const totalScore = Object.values(resultData.scores).reduce(
+      (acc, val) => acc + val,
+      0
+    );
+    const totalMark = resultData?.totalMarks;
     const percentage = (totalScore / totalMark) * 100;
 
-    const result = await Result.create({
-      studentId,
-      examId,
-      examTitle,
-      scores,
+    const result = await Results.create({
+      studentId: resultData?.studentId,
+      examId: resultData?.examId,
+      studentCode: resultData?.studentCode,
+      examTitle: resultData?.examTitle,
+      scores: resultData?.scores,
       totalScore,
       percentage,
     });
