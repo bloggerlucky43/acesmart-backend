@@ -10,7 +10,8 @@ import authRoutes from "./routes/authRoutes.js";
 import examRoutes from "./routes/examRoutes.js";
 import studentRoutes from "./routes/studentRoutes.js";
 import Question from "./models/Question.js";
-
+import dashboardRoutes from "./routes/dashboardRoutes.js";
+import resultRoutes from "./routes/resultRoutes.js";
 dotenv.config();
 
 const app = express();
@@ -31,9 +32,11 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
+app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/questions", questionRoutes);
 app.use("/api/exams", examRoutes);
 app.use("/api/student", studentRoutes);
+app.use("/api/results", resultRoutes);
 sequelize.sync().then(() => console.log("Database connected"));
 
 async function importAPIQuestions(subject, year) {
@@ -73,34 +76,34 @@ async function importAPIQuestions(subject, year) {
   }
 }
 
-importAPIQuestions("government", 2007);
-importAPIQuestions("crk", 2007);
-importAPIQuestions("currentaffairs", 2007);
-importAPIQuestions("irk", 2007);
-importAPIQuestions("history", 2007);
-importAPIQuestions("mathematics", 2007);
-importAPIQuestions("english", 2007);
-importAPIQuestions("commerce", 2007);
-importAPIQuestions("accounting", 2007);
-importAPIQuestions("biology", 2007);
-importAPIQuestions("physics", 2007);
-importAPIQuestions("chemistry", 2007);
-importAPIQuestions("englishlit", 2007);
-importAPIQuestions("economics", 2007);
-importAPIQuestions("government", 2007);
-importAPIQuestions("crk", 2007);
-importAPIQuestions("currentaffairs", 2007);
-importAPIQuestions("irk", 2007);
-importAPIQuestions("history", 2007);
-importAPIQuestions("mathematics", 2007);
-importAPIQuestions("english", 2007);
-importAPIQuestions("commerce", 2007);
-importAPIQuestions("accounting", 2007);
-importAPIQuestions("biology", 2007);
-importAPIQuestions("physics", 2007);
-importAPIQuestions("chemistry", 2007);
-importAPIQuestions("englishlit", 2007);
-importAPIQuestions("economics", 2007);
+importAPIQuestions("government", 2018);
+importAPIQuestions("crk", 2018);
+importAPIQuestions("currentaffairs", 2018);
+importAPIQuestions("irk", 2018);
+importAPIQuestions("history", 2018);
+importAPIQuestions("mathematics", 2018);
+importAPIQuestions("english", 2018);
+importAPIQuestions("commerce", 2018);
+importAPIQuestions("accounting", 2018);
+importAPIQuestions("biology", 2018);
+importAPIQuestions("physics", 2018);
+importAPIQuestions("chemistry", 2018);
+importAPIQuestions("englishlit", 2018);
+importAPIQuestions("economics", 2018);
+importAPIQuestions("government", 2018);
+importAPIQuestions("crk", 2018);
+importAPIQuestions("currentaffairs", 2018);
+importAPIQuestions("irk", 2018);
+importAPIQuestions("history", 2018);
+importAPIQuestions("mathematics", 2018);
+importAPIQuestions("english", 2018);
+importAPIQuestions("commerce", 2018);
+importAPIQuestions("accounting", 2018);
+importAPIQuestions("biology", 2018);
+importAPIQuestions("physics", 2018);
+importAPIQuestions("chemistry", 2018);
+importAPIQuestions("englishlit", 2018);
+importAPIQuestions("economics", 2018);
 
 const PORT = process.env.PORT;
 

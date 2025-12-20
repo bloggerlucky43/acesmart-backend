@@ -30,7 +30,7 @@ const Results = sequelize.define(
       allowNull: true,
     },
     percentage: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.FLOAT,
       allowNull: true,
     },
     examTitle: {
