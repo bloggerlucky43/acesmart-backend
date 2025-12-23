@@ -20,7 +20,7 @@ const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:5000",
   "https://acesmart-backend.onrender.com",
-  "https://acesmart.vercel.app",
+  "https://app.acesmart.site",
 ];
 const corsOptions = {
   origin: allowedOrigins,
