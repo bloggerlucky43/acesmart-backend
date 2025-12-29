@@ -1,3 +1,4 @@
+import cloudinary from "../config/cloudinary.js";
 import { Student } from "../models/index.js";
 import { generateStudentID } from "../utils/generateStudentID.js";
 
@@ -20,23 +21,32 @@ export const fetchStudents = async (req, res) => {
 
 export const addStudent = async (req, res) => {
   try {
-    const { firstName, lastName, studentemail } = req.body;
+    const { firstName, lastName, studentEmail } = req.body;
     const teacherId = req.user.id;
 
+    if (!firstName || !lastName || !studentEmail) {
+      return res.status(400).json({
+        success: false,
+        message: "Missing required fields",
+      });
+    }
     const studentId = generateStudentID();
 
     await Student.create({
       firstName: firstName.trim().toLowerCase(),
       lastName: lastName.toLowerCase().trim(),
       studentId: studentId,
-      studentEmail: studentemail.trim().toLowerCase(),
+      studentEmail: studentEmail.trim().toLowerCase(),
       teacherId,
+      faceImageUrl: req.file ? req.file.path : null,
+      faceImagePublicId: req.file ? req.file.filename : null,
     });
 
     return res
       .status(201)
       .json({ success: true, message: "Student Added Successfully" });
   } catch (error) {
+    console.error(error);
     return res.status(500).json({ success: true, error: "Server error" });
   }
 };
@@ -152,4 +162,51 @@ export const studentLogin = async (req, res) => {
   } catch (error) {
     return res.status(500).json({ error: "Server error" });
   }
+};
+
+export const uploadFace = async (req, res) => {
+  try {
+    const { id } = req.body;
+    if (!req.file) {
+      return res.status(400).json({ message: "No image uploaded" });
+    }
+
+    const user = await Student.findByPk(id);
+
+    console.log("user ", user);
+
+    if (req.file) {
+      user.faceImageUrl = req.file.path;
+      user.faceImagePublicId = req.file.filename;
+      await user.save();
+    }
+
+    user.faceImageUrl = req.file.path;
+    user.faceImagePublicId = req.file.filename;
+
+    console.log("face image", user.faceImagePublicId, user.faceImageUrl);
+
+    await user.save();
+
+    res.json({
+      message: "Face image uploaded successfully",
+      faceImageUrl: user.faceImageUrl,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Upload failed" });
+  }
+};
+
+// controller
+export const getStudentFace = async (req, res) => {
+  const { studentId } = req.params;
+
+  const student = await Student.findOne({ where: { studentId } });
+
+  if (!student || !student.faceImageUrl) {
+    return res.status(404).json({ message: "Face not registered" });
+  }
+
+  res.json({ faceImageUrl: student.faceImageUrl });
 };

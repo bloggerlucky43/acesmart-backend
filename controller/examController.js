@@ -116,6 +116,8 @@ export const getExamQuestions = async (req, res) => {
     console.log(req.params);
 
     const student = await Student.findOne({ where: { studentId } });
+    console.log("student details are", student);
+
     if (!student) {
       return res
         .status(404)
@@ -128,10 +130,12 @@ export const getExamQuestions = async (req, res) => {
       where: {
         id: examId,
         createdBy: student.teacherId,
-        startDate: { [Op.lte]: now },
-        endDate: { [Op.gte]: now },
+        // startDate: { [Op.lte]: now },
+        // endDate: { [Op.gte]: now },
       },
     });
+
+    console.log("exam details", exam);
 
     if (!exam) {
       return res

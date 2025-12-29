@@ -21,5 +21,5 @@ Student.belongsTo(User, { foreignKey: "teacherId" });
 
 Results.belongsTo(Student, { foreignKey: "studentId" });
 Results.belongsTo(Exam, { foreignKey: "examId" });
-await sequelize.sync({ alter: true });
+
 export { User, Exam, Student, Results, Question };

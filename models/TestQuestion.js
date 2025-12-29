@@ -25,4 +25,3 @@ const TestQuestion = sequelize.define(
 );
 
 export default TestQuestion;
-// to contain specific questions(join table)

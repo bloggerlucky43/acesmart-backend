@@ -37,7 +37,14 @@ app.use("/api/questions", questionRoutes);
 app.use("/api/exams", examRoutes);
 app.use("/api/student", studentRoutes);
 app.use("/api/results", resultRoutes);
-sequelize.sync().then(() => console.log("Database connected"));
+sequelize
+  .authenticate()
+  .then(() => console.log("Database connected"))
+  .catch((err) => console.error("DB connection failed:", err));
+
+const PORT = process.env.PORT;
+
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 async function importAPIQuestions(subject, year) {
   try {
@@ -76,35 +83,31 @@ async function importAPIQuestions(subject, year) {
   }
 }
 
-importAPIQuestions("government", 2018);
-importAPIQuestions("crk", 2018);
-importAPIQuestions("currentaffairs", 2018);
-importAPIQuestions("irk", 2018);
-importAPIQuestions("history", 2018);
-importAPIQuestions("mathematics", 2018);
-importAPIQuestions("english", 2018);
-importAPIQuestions("commerce", 2018);
-importAPIQuestions("accounting", 2018);
-importAPIQuestions("biology", 2018);
-importAPIQuestions("physics", 2018);
-importAPIQuestions("chemistry", 2018);
-importAPIQuestions("englishlit", 2018);
-importAPIQuestions("economics", 2018);
-importAPIQuestions("government", 2018);
-importAPIQuestions("crk", 2018);
-importAPIQuestions("currentaffairs", 2018);
-importAPIQuestions("irk", 2018);
-importAPIQuestions("history", 2018);
-importAPIQuestions("mathematics", 2018);
-importAPIQuestions("english", 2018);
-importAPIQuestions("commerce", 2018);
-importAPIQuestions("accounting", 2018);
-importAPIQuestions("biology", 2018);
-importAPIQuestions("physics", 2018);
-importAPIQuestions("chemistry", 2018);
-importAPIQuestions("englishlit", 2018);
-importAPIQuestions("economics", 2018);
-
-const PORT = process.env.PORT;
-
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// importAPIQuestions("government", 2018);
+// importAPIQuestions("crk", 2018);
+// importAPIQuestions("currentaffairs", 2018);
+// importAPIQuestions("irk", 2018);
+// importAPIQuestions("history", 2018);
+// importAPIQuestions("mathematics", 2018);
+// importAPIQuestions("english", 2018);
+// importAPIQuestions("commerce", 2018);
+// importAPIQuestions("accounting", 2018);
+// importAPIQuestions("biology", 2018);
+// importAPIQuestions("physics", 2018);
+// importAPIQuestions("chemistry", 2018);
+// importAPIQuestions("englishlit", 2018);
+// importAPIQuestions("economics", 2018);
+// importAPIQuestions("government", 2018);
+// importAPIQuestions("crk", 2018);
+// importAPIQuestions("currentaffairs", 2018);
+// importAPIQuestions("irk", 2018);
+// importAPIQuestions("history", 2018);
+// importAPIQuestions("mathematics", 2018);
+// importAPIQuestions("english", 2018);
+// importAPIQuestions("commerce", 2018);
+// importAPIQuestions("accounting", 2018);
+// importAPIQuestions("biology", 2018);
+// importAPIQuestions("physics", 2018);
+// importAPIQuestions("chemistry", 2018);
+// importAPIQuestions("englishlit", 2018);
+// importAPIQuestions("economics", 2018);

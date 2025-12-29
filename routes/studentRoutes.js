@@ -6,11 +6,20 @@ import {
   deactivateStudent,
   deleteStudent,
   fetchStudents,
+  getStudentFace,
+  uploadFace,
+  // verifyExamFace,
 } from "../controller/studentController.js";
+import upload from "../middleware/upload.js";
+// import multer from "multer";
+
 const router = express.Router();
 
-router.post("/", protect(), addStudent);
+router.post("/upload-face", upload.single("face"), uploadFace);
+router.get("/face/:studentId", getStudentFace);
+router.post("/", protect(), upload.single("face"), addStudent);
 router.get("/", protect(), fetchStudents);
+
 router.put("/:studentId/activate", protect(), activateStudent);
 router.put("/:studentId/deactivate", protect(), deactivateStudent);
 router.delete("/:studentId", protect(), deleteStudent);

@@ -1,12 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/db.js";
 
-// function generateStudentID() {
-//   const year = new Date().getFullYear();
-//   const randomNum = Math.floor(1000 + Math.random() * 9000);
-//   return `ACE-${year}-${randomNum}`;
-// }
-
 const User = sequelize.define(
   "User",
   {

@@ -30,6 +30,14 @@ const Student = sequelize.define(
       type: DataTypes.BOOLEAN,
       defaultValue: true,
     },
+    faceImageUrl: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    faceImagePublicId: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
     teacherId: {
       type: DataTypes.UUID,
       allowNull: false,
