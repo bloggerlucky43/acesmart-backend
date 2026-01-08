@@ -23,6 +23,9 @@ export const addStudent = async (req, res) => {
   try {
     const { firstName, lastName, studentEmail } = req.body;
     const teacherId = req.user.id;
+    console.log("teacher id is", teacherId);
+
+    console.log("Incoming", req.body);
 
     if (!firstName || !lastName || !studentEmail) {
       return res.status(400).json({
