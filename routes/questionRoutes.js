@@ -1,7 +1,7 @@
 import express from "express";
 import { getQuestions } from "../controller/questionController.js";
-
+import { protect } from "../middleware/authMiddleware.js";
 const router = express.Router();
 
-router.get("/", getQuestions);
+router.get("/", protect(["teacher"]), getQuestions);
 export default router;

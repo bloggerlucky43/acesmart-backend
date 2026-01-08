@@ -130,8 +130,8 @@ export const getExamQuestions = async (req, res) => {
       where: {
         id: examId,
         createdBy: student.teacherId,
-        // startDate: { [Op.lte]: now },
-        // endDate: { [Op.gte]: now },
+        startDate: { [Op.lte]: now },
+        endDate: { [Op.gte]: now },
       },
     });
 

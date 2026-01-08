@@ -6,6 +6,7 @@ export const protect = (roles = []) => {
     const token = req.cookies.token;
 
     console.log("Cookies:", req.cookies);
+    console.log("Tokens are", token);
 
     if (!token) return res.status(401).json({ error: "Not authorised" });
 

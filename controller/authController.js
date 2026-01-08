@@ -68,14 +68,18 @@ export const register = async (req, res) => {
       username: username.trim().toLowerCase(),
       email: email.trim(),
       password: hashedPassword,
-      role,
+      role: "teacher",
     });
 
     console.log("user is created", user);
 
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign(
+      { id: user.id, role: user.role },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1h",
+      }
+    );
 
     res
       .cookie("token", token, {
@@ -129,9 +133,13 @@ export const Login = async (req, res) => {
     if (!validPassword)
       return res.status(401).json({ message: "Invalid password" });
 
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-      expiresIn: "24h",
-    });
+    const token = jwt.sign(
+      { id: user.id, role: user.role },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "24h",
+      }
+    );
 
     res.cookie("token", token, {
       httpOnly: true,
@@ -179,4 +187,9 @@ export const GetSingleUser = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Internal server error", error });
   }
+};
+
+export const logout = (req, res) => {
+  res.clearCookie("token");
+  res.json({ message: "Logged out" });
 };

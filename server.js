@@ -21,6 +21,7 @@ const allowedOrigins = [
   "http://localhost:5000",
   "https://acesmart-backend.onrender.com",
   "https://app.acesmart.site",
+  "https://www.acesmart.site",
 ];
 const corsOptions = {
   origin: allowedOrigins,

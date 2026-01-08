@@ -15,12 +15,22 @@ import upload from "../middleware/upload.js";
 
 const router = express.Router();
 
-router.post("/upload-face", upload.single("face"), uploadFace);
+router.post(
+  "/upload-face",
+  protect(["teacher", "admin"]),
+  upload.single("face"),
+  uploadFace
+);
 router.get("/face/:studentId", getStudentFace);
-router.post("/", protect(), upload.single("face"), addStudent);
-router.get("/", protect(), fetchStudents);
+router.post(
+  "/",
+  protect(["teacher", "admin"]),
+  upload.single("face"),
+  addStudent
+);
+router.get("/", protect(["teacher"]), fetchStudents);
 
-router.put("/:studentId/activate", protect(), activateStudent);
-router.put("/:studentId/deactivate", protect(), deactivateStudent);
-router.delete("/:studentId", protect(), deleteStudent);
+router.put("/:studentId/activate", protect(["teacher"]), activateStudent);
+router.put("/:studentId/deactivate", protect(["teacher"]), deactivateStudent);
+router.delete("/:studentId", protect(["teacher"]), deleteStudent);
 export default router;
