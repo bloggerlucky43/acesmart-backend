@@ -14,7 +14,7 @@ export const getExamResults = async (req, res) => {
           attributes: ["id", "firstName", "lastName", "studentId"],
         },
       ],
-      order: [["DESC"]],
+      // order: [["DESC"]],
     });
 
     console.log("Fetched results:", results);
