@@ -108,6 +108,7 @@ export const Login = async (req, res) => {
   try {
     const { usernameOrEmail, password } = req.body;
     console.log("The login info", req.body);
+    console.log("The login info", req.body);
 
     if (!usernameOrEmail || !password)
       return res
