@@ -200,10 +200,40 @@ export const getExamQuestions = async (req, res) => {
       .json({ success: false, message: "Server error", error: error.message });
   }
 };
+export const checkResultExisting = async (req, res) => {
+  try {
+    const { studentId, examId } = req.params;
 
+    if (!studentId || !examId) {
+      return res.status(400).json({
+        success: false,
+        message: "Student id and exam id are required",
+      });
+    }
+
+    const existingResult = await Results.findOne({
+      where: {
+        studentCode: studentId,
+        examId,
+      },
+    });
+
+    console.log("existing result", existingResult);
+
+    return res.status(200).json({
+      success: true,
+      exists: !!existingResult,
+    });
+  } catch (error) {
+    console.error("Error checking exam results:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Server error",
+    });
+  }
+};
 export const saveExamResult = async (req, res) => {
   try {
-    // let { scores, studentId, examId, examTitle, totalMarks } = req.body;
     const { resultData } = req.body;
     console.log("The request body is", req.body);
 

@@ -4,5 +4,5 @@ import { getExamResults } from "../controller/resultController.js";
 
 const router = express.Router();
 
-router.get("/:examId/all", protect(["teacher"]), getExamResults);
+router.get("/:examId/all", protect(["teacher", "admin"]), getExamResults);
 export default router;

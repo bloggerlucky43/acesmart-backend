@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  checkResultExisting,
   createExam,
   getExamQuestions,
   getExamsByCreator,
@@ -14,4 +15,5 @@ router.post("/", protect(["teacher"]), createExam);
 router.get("/", protect(["teacher"]), getExamsByCreator);
 router.post("/login", studentExamLogin);
 router.get("/:studentId/:examId", getExamQuestions);
+router.get("/result/:studentId/:examId", checkResultExisting);
 export default router;
