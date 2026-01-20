@@ -113,7 +113,7 @@ const shuffleArray = (array) => {
 export const getExamQuestions = async (req, res) => {
   try {
     const { studentId, examId } = req.params;
-    console.log(req.params);
+    console.log("the params are", req.params);
 
     const student = await Student.findOne({ where: { studentId } });
     console.log("student details are", student);

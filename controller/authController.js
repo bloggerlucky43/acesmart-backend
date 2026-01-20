@@ -78,7 +78,7 @@ export const register = async (req, res) => {
       process.env.JWT_SECRET,
       {
         expiresIn: "1h",
-      }
+      },
     );
 
     res
@@ -139,7 +139,7 @@ export const Login = async (req, res) => {
       process.env.JWT_SECRET,
       {
         expiresIn: "24h",
-      }
+      },
     );
 
     res.cookie("token", token, {

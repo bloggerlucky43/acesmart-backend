@@ -50,22 +50,22 @@ async function importAPIQuestions(subject, year) {
   } catch (error) {
     console.error(
       "❌ Error importing from ALOC:",
-      error.response?.data || error.message
+      error.response?.data || error.message,
     );
   }
 }
 
-importAPIQuestions("government", 2020);
-importAPIQuestions("crk", 2020);
-importAPIQuestions("currentaffairs", 2020);
-importAPIQuestions("irk", 2020);
-importAPIQuestions("history", 2020);
-importAPIQuestions("mathematics", 2020);
-importAPIQuestions("english", 2020);
-importAPIQuestions("commerce", 2020);
-importAPIQuestions("accounting", 2020);
-importAPIQuestions("biology", 2020);
-importAPIQuestions("physics", 2020);
-importAPIQuestions("chemistry", 2020);
-importAPIQuestions("englishlit", 2020);
-importAPIQuestions("economics", 2020);
+importAPIQuestions("government", 2022);
+importAPIQuestions("crk", 2022);
+importAPIQuestions("currentaffairs", 2022);
+importAPIQuestions("irk", 2022);
+importAPIQuestions("history", 2022);
+importAPIQuestions("mathematics", 2022);
+importAPIQuestions("english", 2022);
+importAPIQuestions("commerce", 2022);
+importAPIQuestions("accounting", 2022);
+importAPIQuestions("biology", 2022);
+importAPIQuestions("physics", 2022);
+importAPIQuestions("chemistry", 2022);
+importAPIQuestions("englishlit", 2022);
+importAPIQuestions("economics", 2022);
