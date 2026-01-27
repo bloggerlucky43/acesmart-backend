@@ -55,17 +55,17 @@ async function importAPIQuestions(subject, year) {
   }
 }
 
-importAPIQuestions("government", 2022);
-importAPIQuestions("crk", 2022);
-importAPIQuestions("currentaffairs", 2022);
-importAPIQuestions("irk", 2022);
-importAPIQuestions("history", 2022);
-importAPIQuestions("mathematics", 2022);
-importAPIQuestions("english", 2022);
-importAPIQuestions("commerce", 2022);
-importAPIQuestions("accounting", 2022);
-importAPIQuestions("biology", 2022);
-importAPIQuestions("physics", 2022);
-importAPIQuestions("chemistry", 2022);
-importAPIQuestions("englishlit", 2022);
-importAPIQuestions("economics", 2022);
+importAPIQuestions("government", 1990);
+importAPIQuestions("crk", 1990);
+importAPIQuestions("currentaffairs", 1990);
+importAPIQuestions("irk", 1990);
+importAPIQuestions("history", 1990);
+importAPIQuestions("mathematics", 1990);
+importAPIQuestions("english", 1990);
+importAPIQuestions("commerce", 1990);
+importAPIQuestions("accounting", 1990);
+importAPIQuestions("biology", 1990);
+importAPIQuestions("physics", 1990);
+importAPIQuestions("chemistry", 1990);
+importAPIQuestions("englishlit", 1990);
+importAPIQuestions("economics", 1990);

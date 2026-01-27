@@ -32,7 +32,7 @@ import Question from "../models/Question.js";
 
 export const getQuestions = async (req, res) => {
   try {
-    const { subject, year, limit = 100, page = 1 } = req.query;
+    const { subject, year, limit = 120, page = 1 } = req.query;
 
     if (!subject) {
       return res.status(400).json({
@@ -44,7 +44,7 @@ export const getQuestions = async (req, res) => {
     const whereClause = { subject };
     if (year) whereClause.examYear = year;
 
-    const parsedLimit = Math.min(Number(limit), 100); // hard cap
+    const parsedLimit = Math.min(Number(limit), 120); // hard cap
     const offset = (Number(page) - 1) * parsedLimit;
 
     const { rows: questions, count } = await Question.findAndCountAll({
